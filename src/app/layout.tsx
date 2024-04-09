@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import ToasterProvider from "@/provider/ToastProvider";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={lexend.className}>{children}</body>
+        <body className={lexend.className}>
+          <ToasterProvider />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
