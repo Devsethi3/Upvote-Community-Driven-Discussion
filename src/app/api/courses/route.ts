@@ -8,7 +8,6 @@ export async function POST(request: Request) {
     const { userId } = auth();
 
     if (!userId) {
-      // If user is not authenticated, return 401 Unauthorized
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
