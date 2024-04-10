@@ -11,7 +11,6 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Extract title from request body
     const body = await request.json();
     const { title } = body;
 
