@@ -14,7 +14,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { title } = body;
 
-    // Create a new course using Prisma
     const course = await prisma.course.create({
       data: {
         userId,
@@ -22,7 +21,6 @@ export async function POST(request: Request) {
       },
     });
 
-    // Return JSON response with the created course
     return new NextResponse(JSON.stringify(course), { status: 201 }); // 201 Created
   } catch (error) {
     console.error("[COURSES]", error);
