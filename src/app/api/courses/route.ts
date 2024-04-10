@@ -1,17 +1,22 @@
-import prisma from "@/lib/prismadb"; // Import Prisma client
-import { auth } from "@clerk/nextjs"; // Import auth function from Clerk for user authentication
-import { NextResponse } from "next/server"; // Import NextResponse for handling responses
+import prisma from "@/lib/prismadb";
+import { auth } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { userId } = auth(); // Extract userId from authentication
-    const { title } = await request.json(); // Extract title from request body
+    // Extract user ID from authentication
+    const { userId } = auth();
 
     if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 }); // Return 401 Unauthorized response
+      // If user is not authenticated, return 401 Unauthorized
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Create a new course using Prisma client
+    // Extract title from request body
+    const body = await request.json();
+    const { title } = body;
+
+    // Create a new course using Prisma
     const course = await prisma.course.create({
       data: {
         userId,
@@ -19,9 +24,11 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(course); // Return JSON response with the created course
+    // Return JSON response with the created course
+    return new NextResponse(JSON.stringify(course), { status: 201 }); // 201 Created
   } catch (error) {
-    console.error("[COURSES]", error); // Log error
-    return new NextResponse("Internal Server Error", { status: 500 }); // Return 500 Internal Server Error response
+    console.error("[COURSES]", error);
+    // Return 500 Internal Server Error if an error occurs
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
