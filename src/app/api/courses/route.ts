@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    // Extract user ID from authentication
     const { userId } = auth();
 
     if (!userId) {
@@ -24,7 +23,6 @@ export async function POST(request: Request) {
     return new NextResponse(JSON.stringify(course), { status: 201 }); // 201 Created
   } catch (error) {
     console.error("[COURSES]", error);
-    // Return 500 Internal Server Error if an error occurs
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
