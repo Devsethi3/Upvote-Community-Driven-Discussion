@@ -14,7 +14,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { subredditId } = SubredditSubscriptionValidator.parse(body);
 
-    // check if user has already subscribed or not
     const subscriptionExists = await db.subscription.findFirst({
       where: {
         subredditId,
@@ -31,7 +30,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // create subreddit and associate it with the user
     await db.subscription.delete({
       where: {
         userId_subredditId: {
