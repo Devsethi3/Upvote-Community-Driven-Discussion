@@ -10,7 +10,7 @@ const Navbar = async () => {
   const session = await getAuthSession();
 
   return (
-    <div className="sticky top-0 inset-x-0 h-[10vh] flex items-center border-b-2">
+    <div className="sticky top-0 inset-x-0 h-[10vh] bg-secondary/30 flex items-center border-b-2">
       <div className="container flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <h2 className="text-2xl uppercase font-bold">UPVOT</h2>
