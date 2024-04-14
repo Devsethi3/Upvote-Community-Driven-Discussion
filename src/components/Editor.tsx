@@ -24,11 +24,12 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   } = useForm<FormData>({
     resolver: zodResolver(PostValidator),
     defaultValues: {
-      subredditId,
+      // subredditId,
       title: "",
       content: null,
     },
   });
+
   const ref = useRef<EditorJS>();
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -76,6 +77,8 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     const InlineCode = (await import("@editorjs/inline-code")).default;
     const ImageTool = (await import("@editorjs/image")).default;
 
+    console.log(ImageTool);
+
     if (!ref.current) {
       const editor = new EditorJS({
         holder: "editor",
@@ -97,20 +100,21 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
             class: ImageTool,
             config: {
               uploader: {
-                async uploadByFile(file: File) {
+                async uploadByFile(file: any) {
                   // upload to uploadthing
                   const [res] = await uploadFiles([file], "imageUploader");
 
                   return {
                     success: 1,
                     file: {
-                      url: res.fileUrl,
+                      url: res.url,
                     },
                   };
                 },
               },
             },
           },
+
           list: List,
           code: Code,
           inlineCode: InlineCode,
