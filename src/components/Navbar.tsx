@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { getAuthSession } from "@/lib/auth";
 import Image from "next/image";
 import { UserAccountNav } from "./UserAccountNav";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Navbar = async () => {
   const session = await getAuthSession();
@@ -15,13 +16,16 @@ const Navbar = async () => {
           <h2 className="text-2xl uppercase font-bold">UPVOT</h2>
         </Link>
 
-        {session?.user ? (
-          <UserAccountNav user={session.user} />
-        ) : (
-          <Link href="/sign-in">
-            <Button>Sign In</Button>
-          </Link>
-        )}
+        <div className="flex items-center gap-10">
+          <ThemeSwitcher />
+          {session?.user ? (
+            <UserAccountNav user={session.user} />
+          ) : (
+            <Link href="/sign-in">
+              <Button>Sign In</Button>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

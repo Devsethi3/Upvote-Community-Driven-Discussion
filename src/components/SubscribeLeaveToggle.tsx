@@ -88,11 +88,11 @@ const SubscribeLeaveToggle = ({
   });
 
   return isSubscribed ? (
-    <Button className="w-full mt-1 mb-4" onClick={() => unsubscribe()}>
+    <Button className="w-full mt-1 mb-2 border-none" onClick={() => unsubscribe()}>
       Leave community
     </Button>
   ) : (
-    <Button className="w-full mt-1 mb-4" onClick={() => subscribe()}>
+    <Button className="w-full mt-1 mb-2 border-none" onClick={() => subscribe()}>
       Join to post
     </Button>
   );

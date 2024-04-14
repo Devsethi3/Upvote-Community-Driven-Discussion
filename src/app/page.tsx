@@ -14,7 +14,7 @@ const HomePage = () => {
           {/* SubReddit Info */}
           <div className="overflow-hidden h-full rounded-lg border order-first md:order-last">
             <div className="bg-emerald-100 px-6 py-4">
-              <p className="font-semibold py-3 flex items-center gap-1.5">
+              <p className="font-semibold py-3 flex items-center dark:text-black gap-1.5">
                 <MdHome size={20} />
                 Home
               </p>
@@ -31,7 +31,7 @@ const HomePage = () => {
               <Link
                 href="/r/create"
                 className={buttonVariants({
-                  className: "w-full mt-4",
+                  className: "w-full mt-4 border-none",
                 })}
               >
                 Create Community

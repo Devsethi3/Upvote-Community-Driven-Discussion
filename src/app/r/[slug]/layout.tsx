@@ -66,7 +66,7 @@ const layout = async ({
             <p className="font-semibold py-3">About r/</p>
           </div>
 
-          <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
+          <dl className="divide-y px-6 py-4 text-sm leading-6 bg-secondary/30">
             <div className="flex justify-between gap-x-4 py-3">
               <dt className="text-gray-500">Created</dt>
               <dd className="text-gray-700">
@@ -94,15 +94,15 @@ const layout = async ({
                 subredditName={subreddit.name}
               />
             ) : null}
-            {/* <Link
+            <Link
               className={buttonVariants({
-                // variant: "outline",
-                className: "w-full my-4",
+                variant: "secondary",
+                className: "w-full border-none my-4",
               })}
               href={`r/${slug}/submit`}
             >
               Create Post
-            </Link> */}
+            </Link>
           </dl>
         </div>
       </div>
