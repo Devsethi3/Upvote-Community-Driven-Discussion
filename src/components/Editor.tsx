@@ -24,7 +24,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   } = useForm<FormData>({
     resolver: zodResolver(PostValidator),
     defaultValues: {
-      // subredditId,
+      subredditId,
       title: "",
       content: null,
     },
@@ -56,6 +56,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     onSuccess: () => {
       // turn pathname /r/mycommunity/submit into /r/mycommunity
       const newPathname = pathname.split("/").slice(0, -1).join("/");
+      console.log(newPathname);
       router.push(newPathname);
 
       router.refresh();
@@ -76,8 +77,6 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     const LinkTool = (await import("@editorjs/link")).default;
     const InlineCode = (await import("@editorjs/inline-code")).default;
     const ImageTool = (await import("@editorjs/image")).default;
-
-    console.log(ImageTool);
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -167,6 +166,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     const blocks = await ref.current?.save();
 
     const payload: PostCreationRequest = {
+      //@ts-ignore
       title: data.title,
       content: blocks,
       subredditId,
@@ -179,13 +179,31 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     return null;
   }
 
-  const { ref: titleRef, ...rest } = register("title");
+  const { ref: titleRef, ...rest } = register(
+    "title" as
+      | "values"
+      | "forEach"
+      | "entries"
+      | "keys"
+      | "append"
+      | "delete"
+      | "get"
+      | "getAll"
+      | "has"
+      | "set"
+  );
 
   return (
     <div className="w-full bg-secondary/30 rounded-md border p-6">
       <form id="subreddit-post-form" className="w-fit" onSubmit={() => {}}>
         <div className="">
           <TextareaAutosize
+            ref={(e) => {
+              titleRef(e);
+              // @ts-ignore
+              _titleRef.current = e;
+            }}
+            {...rest}
             placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
           />
