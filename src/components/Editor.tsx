@@ -161,14 +161,17 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     }
   }, [isMounted, initializeEditor]);
 
-  async function onSubmit(data: FormData) {
+  async function onSubmit(data: {
+    subredditId: string;
+    title: string;
+    content?: any;
+  }) {
     const blocks = await ref.current?.save();
 
     const payload: PostCreationRequest = {
-      // @ts-ignore
       title: data.title,
       content: blocks,
-      subredditId,
+      subredditId: data.subredditId, // Ensure subredditId is passed correctly
     };
 
     createPost(payload);
@@ -183,7 +186,11 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   return (
     <>
       <div className="w-full p-6 bg-secondary/30 border">
-        <form id="subreddit-post-form" className="w-fit" onSubmit={() => {}}>
+        <form
+          id="subreddit-post-form"
+          className="w-fit"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="prose prose-stone dark:prose-invert">
             <TextareaAutosize
               ref={(e) => {
