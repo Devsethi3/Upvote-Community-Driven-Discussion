@@ -1,11 +1,12 @@
 import axios from "axios";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const href = url.searchParams.get("url");
 
   if (!href) {
-    return new Response("Invalid href", { status: 400 });
+    return new NextResponse("Invalid href", { status: 400 });
   }
 
   const res = await axios.get(href);
@@ -25,7 +26,7 @@ export async function GET(req: Request) {
   const imageUrl = imageMatch ? imageMatch[1] : "";
 
   // Return the data in the format required by the editor tool
-  return new Response(
+  return new NextResponse(
     JSON.stringify({
       success: 1,
       meta: {

@@ -5,23 +5,23 @@ import { useForm } from "react-hook-form";
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useRef, useState } from "react";
-import EditorJS from "@editorjs/editorjs";
+import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import axios from "axios";
 import { toast } from "./ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 
-interface EditorProps {
+type EditorProps = {
   subredditId: string;
-}
+};
 
 const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<PostCreationRequest>({
     resolver: zodResolver(PostValidator),
     defaultValues: {
       subredditId,
@@ -98,21 +98,21 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
             class: ImageTool,
             config: {
               uploader: {
-                async uploadByFile(file: any) {
-                  // upload to uploadthing
+                async uploadByFile(file: File) {
+                  // @ts-ignore
                   const [res] = await uploadFiles([file], "imageUploader");
 
                   return {
                     success: 1,
                     file: {
-                      url: res.url,
+                      // @ts-ignore
+                      url: res.fileUrl,
                     },
                   };
                 },
               },
             },
           },
-
           list: List,
           code: Code,
           inlineCode: InlineCode,
@@ -165,7 +165,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     const blocks = await ref.current?.save();
 
     const payload: PostCreationRequest = {
-      //@ts-ignore
+      // @ts-ignore
       title: data.title,
       content: blocks,
       subredditId,
@@ -178,39 +178,35 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     return null;
   }
 
-  const { ref: titleRef, ...rest } = register(
-    "title" as
-      | "values"
-      | "forEach"
-      | "entries"
-      | "keys"
-      | "append"
-      | "delete"
-      | "get"
-      | "getAll"
-      | "has"
-      | "set"
-  );
+  const { ref: titleRef, ...rest } = register("title");
 
   return (
-    <div className="w-full bg-secondary/30 rounded-md border p-6">
-      <form id="subreddit-post-form" className="w-fit" onSubmit={() => {}}>
-        <div className="">
-          <TextareaAutosize
-            ref={(e) => {
-              titleRef(e);
-              // @ts-ignore
-              _titleRef.current = e;
-            }}
-            {...rest}
-            placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-          />
-        </div>
-
-        <div id="editor" className="min-h-[500px]" />
-      </form>
-    </div>
+    <>
+      <div className="w-full p-6 bg-secondary/30 border">
+        <form id="subreddit-post-form" className="w-fit" onSubmit={() => {}}>
+          <div className="prose prose-stone dark:prose-invert">
+            <TextareaAutosize
+              ref={(e) => {
+                titleRef(e);
+                // @ts-ignore
+                _titleRef.current = e;
+              }}
+              {...rest}
+              placeholder="Title"
+              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            />
+            <div id="editor" className="min-h-[500px]" />
+            <p className="text-sm text-gray-500">
+              Use{" "}
+              <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
+                Tab
+              </kbd>{" "}
+              to open the command menu.
+            </p>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
