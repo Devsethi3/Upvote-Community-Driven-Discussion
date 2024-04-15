@@ -39,7 +39,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
         r/ {subreddit.name}
       </h1>
       <MiniCreatePost session={session} />
-      <PostFeed />
+      <PostFeed subredditName="subreddit" />
     </div>
   );
 };
