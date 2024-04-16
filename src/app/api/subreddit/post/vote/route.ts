@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { PostVoteValidator } from "@/lib/validators/vote";
 import { CachedPost } from "@/types/redis";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const CACHE_AFTER_UPVOTES = 1;
@@ -16,7 +17,7 @@ export async function PATCH(req: Request) {
     const session = await getAuthSession();
 
     if (!session?.user) {
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     // check if user has already voted on this post
@@ -38,7 +39,7 @@ export async function PATCH(req: Request) {
     });
 
     if (!post) {
-      return new Response("Post not found", { status: 404 });
+      return new NextResponse("Post not found", { status: 404 });
     }
 
     if (existingVote) {
@@ -73,7 +74,7 @@ export async function PATCH(req: Request) {
           await redis.hset(`post:${postId}`, cachePayload); // Store the post data as a hash
         }
 
-        return new Response("OK");
+        return new NextResponse("OK");
       }
 
       // if vote type is different, update the vote
@@ -109,7 +110,7 @@ export async function PATCH(req: Request) {
         await redis.hset(`post:${postId}`, cachePayload); // Store the post data as a hash
       }
 
-      return new Response("OK");
+      return new NextResponse("OK");
     }
 
     // if no existing vote, create a new vote
@@ -141,14 +142,14 @@ export async function PATCH(req: Request) {
       await redis.hset(`post:${postId}`, cachePayload); // Store the post data as a hash
     }
 
-    return new Response("OK");
+    return new NextResponse("OK");
   } catch (error) {
     error;
     if (error instanceof z.ZodError) {
-      return new Response(error.message, { status: 400 });
+      return new NextResponse(error.message, { status: 400 });
     }
 
-    return new Response(
+    return new NextResponse(
       "Could not post to subreddit at this time. Please try later",
       { status: 500 }
     );
