@@ -1,7 +1,10 @@
+import CommentsSection from "@/components/CommentsSection";
+import EditorOutput from "@/components/EditorOutput";
 import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import { buttonVariants } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
+import { formatTimeToNow } from "@/lib/utils";
 import { CachedPost } from "@/types/redis";
 import { Post, User, Vote } from "@prisma/client";
 import { ArrowBigDown, ArrowBigUp, Loader2 } from "lucide-react";
@@ -56,6 +59,27 @@ const PostPage = async ({ params }: PostPageProps) => {
             }}
           />
         </Suspense>
+        <div className="sm:w-0 w-full flex-1 bg-secondary/30 p-4 rounded-md">
+          <p className="max-h-40 mt-1 truncate text-xs text-muted-foreground">
+            Posted by u/{post?.author.username ?? cachedPost.authorUsername}
+            <span className="px-2">
+              {formatTimeToNow(
+                new Date(post?.createdAt ?? cachedPost.createdAt)
+              )}
+            </span>
+          </p>
+          <h1 className="text-xl font-semibold py-4 leading-6 text-gray-900">
+            {post?.title ?? cachedPost.title}
+          </h1>
+          <EditorOutput content={post?.content ?? cachedPost.content} />
+          <Suspense
+            fallback={
+              <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
+            }
+          >
+            <CommentsSection postId={post?.id ?? cachedPost.id} />
+          </Suspense>
+        </div>
       </div>
     </>
   );
