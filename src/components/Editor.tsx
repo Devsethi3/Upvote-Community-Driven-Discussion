@@ -1,27 +1,33 @@
 "use client";
 
-import TextareaAutosize from "react-textarea-autosize";
-import { useForm } from "react-hook-form";
-import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
+import EditorJS from "@editorjs/editorjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useEffect, useRef, useState } from "react";
-import type EditorJS from "@editorjs/editorjs";
-import { uploadFiles } from "@/lib/uploadthing";
-import axios from "axios";
-import { toast } from "./ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import TextareaAutosize from "react-textarea-autosize";
+import { z } from "zod";
 
-type EditorProps = {
+import { uploadFiles } from "@/lib/uploadthing";
+import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+
+import "@/styles/editor.css";
+import { toast } from "./ui/use-toast";
+
+type FormData = z.infer<typeof PostValidator>;
+
+interface EditorProps {
   subredditId: string;
-};
+}
 
-const Editor: React.FC<EditorProps> = ({ subredditId }) => {
+export const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PostCreationRequest>({
+  } = useForm<FormData>({
     resolver: zodResolver(PostValidator),
     defaultValues: {
       subredditId,
@@ -29,7 +35,6 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       content: null,
     },
   });
-
   const ref = useRef<EditorJS>();
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -54,6 +59,7 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       });
     },
     onSuccess: () => {
+      // turn pathname /r/mycommunity/submit into /r/mycommunity
       const newPathname = pathname.split("/").slice(0, -1).join("/");
       router.push(newPathname);
 
@@ -98,13 +104,12 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
             config: {
               uploader: {
                 async uploadByFile(file: File) {
-                  // @ts-ignore
+                  // upload to uploadthing
                   const [res] = await uploadFiles([file], "imageUploader");
 
                   return {
                     success: 1,
                     file: {
-                      // @ts-ignore
                       url: res.fileUrl,
                     },
                   };
@@ -160,17 +165,13 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
     }
   }, [isMounted, initializeEditor]);
 
-  async function onSubmit(data: {
-    subredditId: string;
-    title: string;
-    content?: any;
-  }) {
+  async function onSubmit(data: FormData) {
     const blocks = await ref.current?.save();
 
     const payload: PostCreationRequest = {
       title: data.title,
       content: blocks,
-      subredditId: data.subredditId, // Ensure subredditId is passed correctly
+      subredditId,
     };
 
     createPost(payload);
@@ -183,37 +184,33 @@ const Editor: React.FC<EditorProps> = ({ subredditId }) => {
   const { ref: titleRef, ...rest } = register("title");
 
   return (
-    <>
-      <div className="w-full p-6 bg-secondary/30 border">
-        <form
-          id="subreddit-post-form"
-          className="w-fit"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="prose prose-stone dark:prose-invert">
-            <TextareaAutosize
-              ref={(e) => {
-                titleRef(e);
-                // @ts-ignore
-                _titleRef.current = e;
-              }}
-              {...rest}
-              placeholder="Title"
-              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-            />
-            <div id="editor" className="min-h-[500px]" />
-            <p className="text-sm text-gray-500">
-              Use{" "}
-              <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-                Tab
-              </kbd>{" "}
-              to open the command menu.
-            </p>
-          </div>
-        </form>
-      </div>
-    </>
+    <div className="w-full p-4 bg-secondary/30 rounded-lg border">
+      <form
+        id="subreddit-post-form"
+        className="w-fit"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="w-full">
+          <TextareaAutosize
+            ref={(e) => {
+              titleRef(e);
+              // @ts-ignore
+              _titleRef.current = e;
+            }}
+            {...rest}
+            placeholder="Title"
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+          />
+          <div id="editor" className="min-h-[500px]" />
+          <p className="text-sm text-gray-500">
+            Use{" "}
+            <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
+              Tab
+            </kbd>{" "}
+            to open the command menu.
+          </p>
+        </div>
+      </form>
+    </div>
   );
 };
-
-export default Editor;

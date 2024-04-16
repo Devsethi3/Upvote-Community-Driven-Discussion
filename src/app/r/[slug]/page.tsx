@@ -11,10 +11,11 @@ interface PageProps {
   };
 }
 
-const page: React.FC<PageProps> = async ({ params }) => {
+const page = async ({ params }: PageProps) => {
   const { slug } = params;
 
   const session = await getAuthSession();
+
   const subreddit = await db.subreddit.findFirst({
     where: { name: slug },
     include: {
@@ -25,7 +26,9 @@ const page: React.FC<PageProps> = async ({ params }) => {
           comments: true,
           subreddit: true,
         },
-
+        orderBy: {
+          createdAt: "desc",
+        },
         take: INFINITE_SCROLLING_PAGINATION_RESULTS,
       },
     },
@@ -34,13 +37,13 @@ const page: React.FC<PageProps> = async ({ params }) => {
   if (!subreddit) return notFound();
 
   return (
-    <div className="">
+    <>
       <h1 className="font-bold text-3xl md:text-4xl h-14">
-        r/ {subreddit.name}
+        r/{subreddit.name}
       </h1>
       <MiniCreatePost session={session} />
-      <PostFeed subredditName="subreddit" />
-    </div>
+      <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name} />
+    </>
   );
 };
 
