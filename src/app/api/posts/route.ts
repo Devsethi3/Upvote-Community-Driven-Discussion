@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET(req: Request) {
@@ -68,8 +69,8 @@ export async function GET(req: Request) {
       where: whereClause,
     });
 
-    return new Response(JSON.stringify(posts));
+    return new NextResponse(JSON.stringify(posts));
   } catch (error) {
-    return new Response("Could not fetch posts", { status: 500 });
+    return new NextResponse("Could not fetch posts", { status: 500 });
   }
 }

@@ -1,17 +1,22 @@
+import CustomFeed from "@/components/CustomFeed";
+import GeneralFeed from "@/components/GeneralFeed";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { getAuthSession } from "@/lib/auth";
 import Link from "next/link";
 import React from "react";
 import { MdHome } from "react-icons/md";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const session = await getAuthSession();
+
   return (
     <>
       <div className="container my-10">
         <h1 className="font-bold text-3xl md:text-4xl">Your Feed</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
-          {/* Feed */}
+          
+          {session ? <CustomFeed /> : <GeneralFeed />}
 
-          {/* SubReddit Info */}
           <div className="overflow-hidden h-full rounded-lg border order-first md:order-last">
             <div className="bg-emerald-100 px-6 py-4">
               <p className="font-semibold py-3 flex items-center dark:text-black gap-1.5">
