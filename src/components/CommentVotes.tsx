@@ -1,4 +1,5 @@
 "use client";
+import { useCustomToasts } from "@/hooks/use-custom-toast";
 import { cn } from "@/lib/utils";
 import { CommentVoteRequest } from "@/lib/validators/vote";
 import { usePrevious } from "@mantine/hooks";
@@ -9,7 +10,6 @@ import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { FC, useState } from "react";
 import { toast } from "./ui/use-toast";
 import { Button } from "./ui/button";
-import { useCustomToasts } from "@/hooks/use-custom-toast";
 
 interface CommentVotesProps {
   commentId: string;
@@ -92,7 +92,7 @@ const CommentVotes: FC<CommentVotesProps> = ({
       </Button>
 
       {/* score */}
-      <p className="text-center py-2 px-1 font-medium text-xs text-zinc-900">
+      <p className="text-center py-2 px-1 font-medium text-sm text-zinc-900">
         {votesAmt}
       </p>
 
