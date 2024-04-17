@@ -11,10 +11,15 @@ type ExtendedComment = Comment & {
 
 interface PostCommentProps {
   comment: ExtendedComment;
+  votesAmt: number;
+  currentVote: CommentVote | undefined;
+  postId: string;
 }
 
 const PostComment: React.FC<PostCommentProps> = ({ comment }) => {
   const commentRef = useRef<HTMLDivElement>(null);
+  console.log("comments", comment);
+
   return (
     <div ref={commentRef} className="flex flex-col">
       <div className="flex items-center">
