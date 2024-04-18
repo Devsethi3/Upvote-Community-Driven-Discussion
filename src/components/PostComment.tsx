@@ -56,7 +56,7 @@ const PostComment: FC<PostCommentProps> = ({
     onError: () => {
       return toast({
         title: "Something went wrong.",
-        description: "Comment wasn't created successfully. Please try again.",
+        description: "Comment wasn't created. Please try again.",
         variant: "destructive",
       });
     },
