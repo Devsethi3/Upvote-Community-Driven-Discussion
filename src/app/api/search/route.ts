@@ -1,12 +1,10 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
+  const q = url.searchParams.get("q");
 
-  const q = url.searchParams.get("url");
-
-  if (!q) return new Response("Inavalid query", { status: 400 });
+  if (!q) return new Response("Invalid query", { status: 400 });
 
   const results = await db.subreddit.findMany({
     where: {
@@ -20,5 +18,5 @@ export async function GET(req: Request) {
     take: 5,
   });
 
-  return new NextResponse(JSON.stringify(results));
+  return new Response(JSON.stringify(results));
 }

@@ -15,6 +15,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 import { Users } from "lucide-react";
 
 interface SearchBarProps {}
@@ -24,6 +25,11 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   const pathname = usePathname();
   const commandRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useOnClickOutside(commandRef, () => {
+    setInput("");
+  });
+
   const request = debounce(async () => {
     refetch();
   }, 300);
@@ -66,7 +72,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
           debounceRequest();
         }}
         value={input}
-        className="outline-none border-none focus:border-none focus:outline-none ring-0"
+        className="outline-none border-none focus:border-none truncate focus:outline-none ring-0"
         placeholder="Search communities..."
       />
 

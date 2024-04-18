@@ -1,6 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { UsernameValidator } from "@/lib/validators/username";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function PATCH(req: Request) {
@@ -8,7 +9,7 @@ export async function PATCH(req: Request) {
     const session = await getAuthSession();
 
     if (!session?.user) {
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const body = await req.json();
@@ -22,7 +23,7 @@ export async function PATCH(req: Request) {
     });
 
     if (username) {
-      return new Response("Username is taken", { status: 409 });
+      return new NextResponse("Username is taken", { status: 409 });
     }
 
     // update username
@@ -35,15 +36,15 @@ export async function PATCH(req: Request) {
       },
     });
 
-    return new Response("OK");
+    return new NextResponse("OK");
   } catch (error) {
     error;
 
     if (error instanceof z.ZodError) {
-      return new Response(error.message, { status: 400 });
+      return new NextResponse(error.message, { status: 400 });
     }
 
-    return new Response(
+    return new NextResponse(
       "Could not update username at this time. Please try later",
       { status: 500 }
     );
