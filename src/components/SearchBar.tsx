@@ -24,7 +24,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   const pathname = usePathname();
   const commandRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
   const request = debounce(async () => {
     refetch();
   }, 300);
@@ -32,6 +31,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   const debounceRequest = useCallback(() => {
     request();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
