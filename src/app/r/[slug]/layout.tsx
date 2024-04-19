@@ -56,7 +56,7 @@ const layout = async ({
   });
 
   return (
-    <div className="container h-full pt-12">
+    <div className="container h-full pt-4 lg:pt-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-4 py-6 gap-y-4">
         <div className="flex flex-col col-span-2 space-y-6">{children}</div>
 

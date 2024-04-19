@@ -75,8 +75,8 @@ const PostComment: FC<PostCommentProps> = ({
             image: comment.author.image || null,
           }}
         />
-        <div className="ml-2 flex items-center gap-x-2">
-          <p className="text-sm font-medium text-gray-900">
+        <div className="ml-1 flex items-center gap-x-2">
+          <p className="font-medium text-gray-900 dark:text-gray-300">
             u/{comment.author.username}
           </p>
 
@@ -86,9 +86,11 @@ const PostComment: FC<PostCommentProps> = ({
         </div>
       </div>
 
-      <p className="text-sm text-zinc-900 mt-2">{comment.text}</p>
+      <p className="text-sm text-zinc-900 dark:text-zinc-300 mt-2">
+        {comment.text}
+      </p>
 
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 my-3 items-center">
         <CommentVotes
           commentId={comment.id}
           votesAmt={votesAmt}
@@ -111,7 +113,7 @@ const PostComment: FC<PostCommentProps> = ({
       {isReplying ? (
         <div className="grid w-full gap-1.5">
           <label htmlFor="comment">Your comment</label>
-          <div className="mt-2">
+          <div className="my-2">
             <Textarea
               onFocus={(e) =>
                 e.currentTarget.setSelectionRange(
@@ -127,7 +129,7 @@ const PostComment: FC<PostCommentProps> = ({
               placeholder="What are your thoughts?"
             />
 
-            <div className="mt-2 flex justify-end gap-2">
+            <div className="mt-4 flex justify-end gap-2">
               <Button
                 tabIndex={-1}
                 variant="secondary"

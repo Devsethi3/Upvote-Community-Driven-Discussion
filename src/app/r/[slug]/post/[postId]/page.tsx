@@ -89,17 +89,17 @@ function PostVoteShell() {
     <div className="flex items-center flex-col pr-6 w-20">
       {/* upvote */}
       <div className={buttonVariants({ variant: "ghost" })}>
-        <ArrowBigUp className="h-5 w-5 text-zinc-700" />
+        <ArrowBigUp className="h-5 w-5 text-muted-foreground" />
       </div>
 
       {/* score */}
-      <div className="text-center py-2 font-medium text-sm text-zinc-900">
+      <div className="text-center py-2 font-medium text-sm text-zinc-900 dark:text-zinc-200">
         <Loader2 className="h-3 w-3 animate-spin" />
       </div>
 
       {/* downvote */}
       <div className={buttonVariants({ variant: "ghost" })}>
-        <ArrowBigDown className="h-5 w-5 text-zinc-700" />
+        <ArrowBigDown className="h-5 w-5 text-muted-foreground" />
       </div>
     </div>
   );

@@ -62,8 +62,8 @@ const CreatePage = () => {
 
   return (
     <>
-      <div className="container flex items-center h-full">
-        <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
+      <div className="container flex items-center h-[70vh] justify-center">
+        <div className="relative border bg-secondary/10 w-full h-fit p-4 rounded-lg space-y-6">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold">Create a community</h1>
           </div>

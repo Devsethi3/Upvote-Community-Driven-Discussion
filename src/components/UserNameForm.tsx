@@ -81,14 +81,14 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       onSubmit={handleSubmit((e) => updateUsername(e))}
       {...props}
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>Your username</CardTitle>
-          <CardDescription>
+      <div>
+        <div className="flex flex-col">
+          <h2 className="text-2xl font-semibold">Your username</h2>
+          <p className="text-xs mb-5 text-muted-foreground">
             Please enter a display name you are comfortable with.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+          </p>
+        </div>
+        <div>
           <div className="relative grid gap-1">
             <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
               <span className="text-sm text-zinc-400">u/</span>
@@ -98,7 +98,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
             </Label>
             <Input
               id="name"
-              className="w-[400px] pl-6"
+              className="w-full pl-8 mb-6"
               size={32}
               {...register("name")}
             />
@@ -106,11 +106,11 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
               <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
             )}
           </div>
-        </CardContent>
-        <CardFooter>
+        </div>
+        <div>
           <Button>Change name</Button>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </form>
   );
 }
