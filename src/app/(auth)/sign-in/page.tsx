@@ -6,12 +6,10 @@ import React from "react";
 const SignInPage = () => {
   return (
     <div className="flex items-center h-[90vh] justify-center">
-      <div className="border shadow-sm py-8 px-4">
-        {/* <Link href="/">
+      {/* <Link href="/">
           <Button variant="ghost">Home</Button>
         </Link> */}
-        <SignIn />
-      </div>
+      <SignIn />
     </div>
   );
 };

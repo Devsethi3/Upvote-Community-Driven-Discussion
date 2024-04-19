@@ -2,27 +2,34 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import UserAuthForm from "./UserAuthForm";
+import Image from "next/image";
 
 const SignIn = () => {
   return (
-    <div className="container">
-      <div className="flex flex-col items-center gap-y-6">
-        <div className="flex items-center gap-2">
-          <h2 className="text-2xl font-bold">UPVOT</h2>
-        </div>
-        <p className="text-sm max-w-[400px] text-center mx-auto">
-          By continuing, you are setting up a UPVOT account and agree to our
-          user agreement and privacy policy.
-        </p>
-
-        <UserAuthForm />
-
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          New to Upvot?
-          <Link href="/sign-up">
-            <Button variant="link">Sign Up</Button>
+    <div className="bg-primary/10 w-full">
+      <div className="container  h-[90vh] flex items-center justify-center">
+        <div className="flex dark:bg-[#0B111E] bg-white max-w-xl p-12 rounded-md shadow-md flex-col items-center gap-8">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/images/nav-logo.png"
+              width={40}
+              height={40}
+              alt="logo"
+            />
+            <h2 className="text-2xl lg:text-3xl uppercase font-bold">UPVOTE</h2>
           </Link>
-        </p>
+          <p className="text-sm lg:text-base text-center mx-auto">
+            By continuing, you are setting up a UPVOT account and agree to our
+            user agreement and privacy policy.
+          </p>
+          <UserAuthForm />
+          <div className="flex items-center gap-3">
+            <p>New to Upvote?</p>
+            <Link href="/sign-up">
+              <Button variant="secondary">Sign Up</Button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
