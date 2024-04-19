@@ -31,6 +31,7 @@ const UserAuthForm = () => {
   return (
     <div className="w-full">
       <button
+        onClick={loginWithGoogle}
         className={buttonVariants({
           className: "w-full flex items-center gap-3",
           variant: "secondary",
