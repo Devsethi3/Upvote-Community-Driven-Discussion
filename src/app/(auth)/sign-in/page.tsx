@@ -6,9 +6,6 @@ import React from "react";
 const SignInPage = () => {
   return (
     <div className="flex items-center h-[90vh] justify-center">
-      {/* <Link href="/">
-          <Button variant="ghost">Home</Button>
-        </Link> */}
       <SignIn />
     </div>
   );
