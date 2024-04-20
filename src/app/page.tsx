@@ -17,7 +17,7 @@ const HomePage = async () => {
           
           {session ? <CustomFeed /> : <GeneralFeed />}
 
-          <div className="overflow-hidden h-full rounded-lg border order-first md:order-last">
+          <div className="overflow-hidden h-fit rounded-lg border order-first md:order-last">
             <div className="bg-emerald-100 px-6 py-4">
               <p className="font-semibold py-3 flex items-center dark:text-black gap-1.5">
                 <MdHome size={20} />
