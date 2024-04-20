@@ -7,7 +7,7 @@ import Image from "next/image";
 const SignIn = () => {
   return (
     <div className="bg-primary/10 w-full">
-      <div className="container  h-[90vh] flex items-center justify-center">
+      <div className="container h-[90vh] flex items-center justify-center">
         <div className="flex dark:bg-[#0B111E] bg-white max-w-xl p-12 rounded-md shadow-md flex-col items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
             <Image
