@@ -33,7 +33,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
         (!!subredditName ? `&subredditName=${subredditName}` : "");
 
       const { data } = await axios.get(query);
-      setIsLoading(false); // Set loading state to false when data is fetched
+      setIsLoading(false); 
       return data as ExtendedPost[];
     },
 
