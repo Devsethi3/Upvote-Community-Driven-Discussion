@@ -71,7 +71,6 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
             );
 
             if (index === posts.length - 1) {
-              // Add a ref to the last post in the list
               return (
                 <li key={post.id} ref={ref}>
                   <Post
