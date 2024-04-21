@@ -55,7 +55,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
 
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
-      {isLoading ? ( // Show loader if still loading
+      {isLoading ? ( 
         <Loading />
       ) : (
         <>
