@@ -50,7 +50,6 @@ export async function PATCH(req: Request) {
       }
     }
 
-    // if no existing vote, create a new vote
     await db.commentVote.create({
       data: {
         type: voteType,
