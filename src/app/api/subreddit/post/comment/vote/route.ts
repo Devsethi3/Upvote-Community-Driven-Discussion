@@ -23,7 +23,6 @@ export async function PATCH(req: Request) {
     });
 
     if (existingVote) {
-      // if vote type is the same as existing vote, delete the vote
       if (existingVote.type === voteType) {
         await db.commentVote.delete({
           where: {
