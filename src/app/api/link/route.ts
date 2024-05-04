@@ -24,7 +24,6 @@ export async function GET(req: Request) {
   );
   const imageUrl = imageMatch ? imageMatch[1] : "";
 
-  // Return the data in the format required by the editor tool
   return new NextResponse(
     JSON.stringify({
       success: 1,
