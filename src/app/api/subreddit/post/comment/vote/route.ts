@@ -34,7 +34,6 @@ export async function PATCH(req: Request) {
         });
         return new Response("OK");
       } else {
-        // if vote type is different, update the vote
         await db.commentVote.update({
           where: {
             userId_commentId: {
