@@ -15,7 +15,6 @@ export async function PATCH(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    // check if user has already voted on this post
     const existingVote = await db.commentVote.findFirst({
       where: {
         userId: session.user.id,
