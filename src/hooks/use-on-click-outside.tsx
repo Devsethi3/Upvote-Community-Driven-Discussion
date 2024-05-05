@@ -13,7 +13,7 @@ export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
         return;
       }
 
-      handler(event); // Call the handler.
+      handler(event);
     };
 
     document.addEventListener("mousedown", listener);
