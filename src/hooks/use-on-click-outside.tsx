@@ -13,7 +13,7 @@ export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
         return;
       }
 
-      handler(event); // Call the handler only if the click is outside of the element passed.
+      handler(event); // Call the handler only if the click is outside.
     };
 
     document.addEventListener("mousedown", listener);
